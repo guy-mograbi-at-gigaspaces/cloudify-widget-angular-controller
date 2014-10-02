@@ -58,12 +58,19 @@ $scope.genericWidgetModel = {
 <dd>will be filled once the widget runs</dd>
 
 <dt>advancedData</dt>
-<dd>has one of the following structures
+<dd>has one of the following structures</dd>
 
-```javacript
+</dl>
+
+
+```javascript
+
 { 'type' : 'aws_ec2' , 'params' : { 'key' : null, 'secretKey' : null } };
 { 'type' : 'softlayer' , 'params' : { 'username' : null, 'apiKey' : null } };
+
 ```
+<dl>
+<dd>
 depends on your cloud of choice
 </dd>
 
@@ -73,10 +80,14 @@ depends on your cloud of choice
 <dt>recipeProperties</dt>
 <dd>has the following structure
 
-```javascript
-[ { 'key' : 'my key' , 'value' : 'my value' } , { 'key' : 'another key' , 'value' : 'another value' } , ... ]
-```
 </dl>
+
+```javascript
+
+[ { 'key' : 'my key' , 'value' : 'my value' } , { 'key' : 'another key' , 'value' : 'another value' } , ... ]
+
+```
+
 
 ### the method `playWidget`
 
