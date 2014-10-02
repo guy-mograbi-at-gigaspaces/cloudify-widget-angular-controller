@@ -29,11 +29,15 @@ angular.module('cloudifyWidgetAngularController')
 
 
         function _postMessage ( name, data ){
-            if ( !$scope.genericWidgetModel.element ){
+            var element = $scope.genericWidgetModel.element;
+            if ( typeof(element) === 'function' ){
+                element = element();
+            }
+            if ( !element ){
                 $log.error('element not defined on $scope.genericWidgetModel. Do not know who to post data to');
             }
             try {
-                $($scope.genericWidgetModel.element)[0].contentWindow.postMessage({ 'name': name, 'data': data }, '*');
+                element.contentWindow.postMessage({ 'name': name, 'data': data }, '*');
             }catch(e){}
         }
 
@@ -45,30 +49,57 @@ angular.module('cloudifyWidgetAngularController')
             _postMessage('widget_stop');
         };
 
-        $scope.$watch('genericWidgetModel.recipeProperties', function(){
-            _postMessage( 'widget_recipe_properties' , $scope.genericWidgetModel.recipeProperties );
-        }, true);
+        var postProperties = function () {
+            $log.info('posting properties');
+            _postMessage('widget_recipe_properties', $scope.genericWidgetModel.recipeProperties);
+        };
+        $scope.$watch( function(){ return $scope.genericWidgetModel.recipeProperties; }, postProperties, true);
 
-        $scope.$watch( function() { return $scope.genericWidgetModel.advancedData; }, function(){
+
+        var postAdvancedData = function () {
             $log.info('posting advancedData');
-            _postMessage( 'widget_advanced_data', $scope.genericWidgetModel.advancedData );
-        }, true);
+            _postMessage('widget_advanced_data', $scope.genericWidgetModel.advancedData);
+        };
+        $scope.$watch( function() { return $scope.genericWidgetModel.advancedData; }, postAdvancedData, true);
 
 
-        $scope.$watch('leadDetails', function(){
-            _postMessage( 'widget_lead_details' , $scope.genericWidgetModel.leadDetails );
-        },true);
+        var postLeadDetails = function () {
+            _postMessage('widget_lead_details', $scope.genericWidgetModel.leadDetails);
+        };
+        $scope.$watch( function(){ return $scope.genericWidgetModel.leadDetails; }, postLeadDetails,true);
 
+        var ellipsis = '.....';
+        var ellipsisLength = 0;
         function receiveMessage( e ){
-            $log.info('ibmpage got a message ', e.data );
             var messageData = angular.fromJson(e.data);
-
+            $log.info(['ibmpage got a message ', messageData] );
             if ( messageData.name === 'widget_loaded'){
                 $scope.genericWidgetModel.loaded = true;
+                postLeadDetails();
+                postAdvancedData();
+                postProperties();
+            }
+
+            if ( messageData.name === 'widget_status' ){
+
+                ellipsisLength = Math.max(1,( ellipsisLength + 1 ) % ellipsis.length);
+                if ( messageData.data.hasOwnProperty('status')){
+                    $scope.genericWidgetModel.widgetStatus = messageData.data.status;
+                }else{
+                    $scope.genericWidgetModel.widgetStatus = messageData.data;
+                }
+
+                try {
+
+                    $scope.genericWidgetModel.widgetStatus.rawOutput = $scope.genericWidgetModel.widgetStatus.rawOutput.join('') + ellipsis.substring(ellipsis.length - ellipsisLength);
+                }catch(e){}
+
             }
 
             $scope.$apply();
         }
 
         window.addEventListener('message', receiveMessage, false);
+
+        $log.info('generic controller loaded');
     });
