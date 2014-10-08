@@ -91,7 +91,7 @@ angular.module('cloudifyWidgetAngularController')
 
                 try {
 
-                    $scope.genericWidgetModel.widgetStatus.rawOutput = $scope.genericWidgetModel.widgetStatus.rawOutput.join('') + ellipsis.substring(ellipsis.length - ellipsisLength);
+                    $scope.genericWidgetModel.widgetStatus.rawOutput = $scope.genericWidgetModel.widgetStatus.rawOutput.join('\n') + ellipsis.substring(ellipsis.length - ellipsisLength);
                 }catch(e){}
 
             }
