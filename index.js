@@ -46,7 +46,6 @@ angular.module('cloudifyWidgetAngularController')
         };
 
         $scope.stopWidget = function(){
-            debugger;
             _postMessage('widget_stop');
         };
 
