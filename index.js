@@ -46,6 +46,7 @@ angular.module('cloudifyWidgetAngularController')
         };
 
         $scope.stopWidget = function(){
+            debugger;
             _postMessage('widget_stop');
         };
 
@@ -90,8 +91,9 @@ angular.module('cloudifyWidgetAngularController')
                 }
 
                 try {
-
-                    $scope.genericWidgetModel.widgetStatus.rawOutput = $scope.genericWidgetModel.widgetStatus.rawOutput.join('\n') + ellipsis.substring(ellipsis.length - ellipsisLength);
+                    if ( !!$scope.genericWidgetModel.widgetStatus && !!$scope.genericWidgetModel.widgetStatus.rawOutput) {
+                        $scope.genericWidgetModel.widgetStatus.rawOutput.push(ellipsis.substring(ellipsis.length - ellipsisLength));
+                    }
                 }catch(e){}
 
             }
