@@ -24,6 +24,7 @@ angular.module('cloudifyWidgetAngularController')
             widgetStatus : {},
             advancedData : {},
             leadDetails : {},
+            loginDetails: {},
             recipeProperties : []
         }; // initialized;
 
@@ -49,6 +50,12 @@ angular.module('cloudifyWidgetAngularController')
             _postMessage('widget_stop');
         };
 
+        var postLoginDetails = function() {
+            $log.info('posting login details');
+            _postMessage('widget_login_details', $scope.genericWidgetModel.loginDetails );
+        };
+        $scope.$watch( function(){ return $scope.genericWidgetModel.loginDetails; }, postLoginDetails, true);
+
         var postProperties = function () {
             $log.info('posting properties');
             _postMessage('widget_recipe_properties', $scope.genericWidgetModel.recipeProperties);
@@ -70,6 +77,7 @@ angular.module('cloudifyWidgetAngularController')
 
         var ellipsis = '.....';
         var ellipsisLength = 0;
+
         function receiveMessage( e ){
             var messageData = angular.fromJson(e.data);
             $log.info(['ibmpage got a message ', messageData] );
@@ -91,7 +99,7 @@ angular.module('cloudifyWidgetAngularController')
 
                 try {
                     if ( !!$scope.genericWidgetModel.widgetStatus && !!$scope.genericWidgetModel.widgetStatus.rawOutput) {
-                        $scope.genericWidgetModel.widgetStatus.rawOutput.push(ellipsis.substring(ellipsis.length - ellipsisLength));
+                        $scope.genericWidgetModel.widgetStatus.ellipsis = ellipsis.substring(ellipsis.length - ellipsisLength);
                     }
                 }catch(e){}
 
