@@ -25,6 +25,7 @@ angular.module('cloudifyWidgetAngularController')
             advancedData : {},
             leadDetails : {},
             loginDetails: {},
+            ec2Details: {},  // used for ec2 specific checks on the widget
             recipeProperties : []
         }; // initialized;
 
@@ -62,6 +63,12 @@ angular.module('cloudifyWidgetAngularController')
         };
         $scope.$watch( function(){ return $scope.genericWidgetModel.recipeProperties; }, postProperties, true);
 
+        var postEc2Details = function() {
+            $log.info('posting ec2 details');
+            _postMessage('widget_ec2_details', $scope.genericWidgetModel.ec2Details);
+        };
+        $scope.$watch( function(){ return $scope.genericWidgetModel.ec2Details; }, postEc2Details, true );
+
 
         var postAdvancedData = function () {
             $log.info('posting advancedData');
@@ -80,12 +87,13 @@ angular.module('cloudifyWidgetAngularController')
 
         function receiveMessage( e ){
             var messageData = angular.fromJson(e.data);
-            $log.info(['ibmpage got a message ', messageData] );
+            $log.info(['cloudify widget controller got a message ', messageData] );
             if ( messageData.name === 'widget_loaded'){
                 $scope.genericWidgetModel.loaded = true;
                 postLeadDetails();
                 postAdvancedData();
                 postProperties();
+                postEc2Details();
             }
 
             if ( messageData.name === 'widget_status' ){
