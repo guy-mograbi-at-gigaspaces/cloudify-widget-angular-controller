@@ -47,8 +47,8 @@ angular.module('cloudifyWidgetAngularController')
             _postMessage('widget_play');
         };
 
-        $scope.stopWidget = function(){
-            _postMessage('widget_stop');
+        $scope.stopWidget = function( skipConfirmation ){
+            _postMessage('widget_stop', { 'skipConfirmation' : skipConfirmation } );
         };
 
         var postLoginDetails = function() {
