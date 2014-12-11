@@ -17,7 +17,7 @@ angular.module('my module name', [ 'cloudifyWidgetAngularController' ] );
 ```
 
 
-then use it from within a controller (in the old widget)
+then use it from within a controller
 
 ```javascript
 angular('my module name').controller('MyCtrl', function( $scope, $controller ) {
@@ -26,17 +26,6 @@ angular('my module name').controller('MyCtrl', function( $scope, $controller ) {
 
 } )
 ```
-
-For the new widget, use GsGenericCtrl instead.
-
-```javascript
-angular('my module name').controller('MyCtrl', function( $scope, $controller ) {
-   $controller('GsGenericCtrl', {$scope:$scope} );
-   $scope.genericWidgetModel.element = $('iframe')[0];
-
-} )
-```
-
 
 
 this will put a property and some functions for you on the scope and will handle all post message and receive message to and from the widget's iframe.
