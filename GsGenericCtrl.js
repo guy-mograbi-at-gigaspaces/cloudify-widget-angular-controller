@@ -27,7 +27,7 @@ angular.module('cloudifyWidgetAngularController', [])
             loaded: false,
             element: null, // the dom element to post message to
             widgetStatus: {},
-            recipeProperties: {}
+            recipeProperties: []
         }; // initialized;
 
         var postRecipeProperties = function () {
