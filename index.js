@@ -3,8 +3,9 @@
 try {
     angular.module('cloudifyWidgetAngularController',[]);
 } catch (e) {
-
+    
 }
+
 
 /**
  *
