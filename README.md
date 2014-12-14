@@ -7,7 +7,7 @@ to install run
 make sure you include the JS file in your index.html
 
 ```html
-<script src="bower_components/cloudify-widget-angular-controller/index.js"></script>
+<script src="bower_components/cloudify-widget-angular-controller/GsGenericCtrl.js"></script>
 ```
 
 then add the module in your angular app dependencies
