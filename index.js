@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module('cloudifyWidgetAngularController',[]);
+try {
+    angular.module('cloudifyWidgetAngularController',[]);
+} catch (e) {
+
+}
 
 /**
  *
