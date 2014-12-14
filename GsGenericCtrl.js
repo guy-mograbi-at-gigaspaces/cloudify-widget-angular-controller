@@ -4,6 +4,12 @@
 
 'use strict';
 
+try {
+    angular.module('cloudifyWidgetAngularController',[]);
+} catch (e) {
+    
+}
+
 /**
  *
  *  A controller that handles postMessage and recieveMessage for you.
@@ -21,7 +27,7 @@
  *   This is a compatible only with the new widget. For the old widget, please see index.js
  *
  */
-angular.module('cloudifyWidgetAngularController', [])
+angular.module('cloudifyWidgetAngularController')
     .controller('GsGenericCtrl', function ($scope, $log, $window) {
         $scope.genericWidgetModel = {
             loaded: false,
