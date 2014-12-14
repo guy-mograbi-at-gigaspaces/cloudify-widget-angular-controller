@@ -5,9 +5,9 @@
 'use strict';
 
 try {
-    angular.module('cloudifyWidgetAngularController',[]);
+    angular.module('cloudifyWidgetAngularController');
 } catch (e) {
-    
+    angular.module('cloudifyWidgetAngularController', []);
 }
 
 /**
