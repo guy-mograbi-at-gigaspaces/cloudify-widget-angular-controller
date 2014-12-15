@@ -33,12 +33,23 @@ angular.module('cloudifyWidgetAngularController')
             loaded: false,
             element: null, // the dom element to post message to
             widgetStatus: {},
-            recipeProperties: []
+            recipeProperties: {},
+            advancedData: {}
         }; // initialized;
+
+        var propertiesToArray = function (propertiesObject) {
+            var propertiesArray = [];
+
+            Object.keys(propertiesObject).forEach(function (key) {
+                propertiesArray.push({'key': key, 'value': propertiesObject[key]});
+            });
+
+            return propertiesArray;
+        };
 
         var postRecipeProperties = function () {
             $log.info('posting recipe properties');
-            postMessage({name: 'widget_recipe_properties', data: $scope.genericWidgetModel.recipeProperties});
+            postMessage({name: 'widget_recipe_properties', data: propertiesToArray($scope.genericWidgetModel.recipeProperties)});
         };
         $scope.$watch(function () {
             return $scope.genericWidgetModel.recipeProperties;
