@@ -39,16 +39,6 @@ angular.module('cloudifyWidgetAngularController')
             leadDetails: {}
         }; // initialized;
 
-        var propertiesToArray = function (propertiesObject) {
-            var propertiesArray = [];
-
-            Object.keys(propertiesObject).forEach(function (key) {
-                propertiesArray.push({'key': key, 'value': propertiesObject[key]});
-            });
-
-            return propertiesArray;
-        };
-
         var postRecipeProperties = function () {
             $log.info('posting recipe properties');
             postMessage({name: 'widget_recipe_properties', data: $scope.genericWidgetModel.recipeProperties});
