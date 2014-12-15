@@ -10,6 +10,7 @@ try {
     angular.module('cloudifyWidgetAngularController', []);
 }
 
+
 /**
  *
  *  A controller that handles postMessage and recieveMessage for you.
@@ -28,13 +29,14 @@ try {
  *
  */
 angular.module('cloudifyWidgetAngularController')
-    .controller('GsGenericCtrl', function ($scope, $log, $window) {
+    .controller('GsGenericCtrl', function ($scope, $log) {
         $scope.genericWidgetModel = {
             loaded: false,
             element: null, // the dom element to post message to
             widgetStatus: {},
             recipeProperties: {},
-            advancedData: {}
+            advancedData: {},
+            leadDetails: {}
         }; // initialized;
 
         var propertiesToArray = function (propertiesObject) {
@@ -49,14 +51,25 @@ angular.module('cloudifyWidgetAngularController')
 
         var postRecipeProperties = function () {
             $log.info('posting recipe properties');
-            postMessage({name: 'widget_recipe_properties', data: propertiesToArray($scope.genericWidgetModel.recipeProperties)});
+            postMessage({name: 'widget_recipe_properties', data: $scope.genericWidgetModel.recipeProperties});
         };
         $scope.$watch(function () {
             return $scope.genericWidgetModel.recipeProperties;
         }, postRecipeProperties, true);
 
         $scope.playWidget = function () {
-            postMessage({name: 'widget_play', widget: $scope.widget});
+            var data = {
+                executionDetails: {
+                    EC2: {
+                        params: {
+                            apiKey: $scope.genericWidgetModel.advancedData.params.key,
+                            secretKey: $scope.genericWidgetModel.advancedData.params.secretKey
+                        }
+                    }
+                }
+            };
+
+            postMessage({name: 'widget_play', widget: data});
         };
 
         $scope.stopWidget = function () {
@@ -106,7 +119,7 @@ angular.module('cloudifyWidgetAngularController')
             $scope.$apply();
         }
 
-        $window.addEventListener('message', receiveMessage, false);
+        window.addEventListener('message', receiveMessage, false);
 
         $log.info('generic controller loaded');
     });
