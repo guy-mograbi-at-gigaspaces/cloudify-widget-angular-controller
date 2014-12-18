@@ -63,7 +63,7 @@ angular.module('cloudifyWidgetAngularController')
         };
 
         $scope.stopWidget = function () {
-            postMessage({name: 'widget_stop', widget: $scope.widget, executionId: $scope.executionId});
+            postMessage({name: 'widget_stop'});
         };
 
         function postMessage(data) {
