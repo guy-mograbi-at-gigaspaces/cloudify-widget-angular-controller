@@ -85,7 +85,7 @@ angular.module('cloudifyWidgetAngularController')
 
         function receiveMessage(e) {
             var messageData = angular.fromJson(e.data);
-            $log.info(['cloudify widget GsMessagesHubService got a message ', messageData]);
+            $log.info(['cloudify widget GsGenericCtrl got a message ', messageData]);
 
             if (!messageData) {
                 $log.error('unable to handle received message, no data was found');
