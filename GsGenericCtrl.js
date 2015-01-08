@@ -48,16 +48,23 @@ angular.module('cloudifyWidgetAngularController')
         }, postRecipeProperties, true);
 
         $scope.playWidget = function () {
-            var data = {
-                executionDetails: {
-                    EC2: {
-                        params: {
-                            apiKey: $scope.genericWidgetModel.advancedData.params.key,
-                            secretKey: $scope.genericWidgetModel.advancedData.params.secretKey
-                        }
-                    }
-                }
-            };
+
+            var data = {};
+            //try {
+            //    data = {
+            //        'executionDetails': {
+            //            EC2: {
+            //                params: {
+            //                    apiKey: $scope.genericWidgetModel.advancedData.params.key,
+            //                    secretKey: $scope.genericWidgetModel.advancedData.params.secretKey
+            //                }
+            //            }
+            //        }
+            //    };
+            //} catch (e) {
+            //    $log.error('error placing advancedData on play request', e);
+            //}
+
 
             postMessage({name: 'widget_play', widget: data});
         };
@@ -66,8 +73,28 @@ angular.module('cloudifyWidgetAngularController')
             postMessage({name: 'widget_stop'});
         };
 
+        $scope.isWidgetInstallationFinished = function () {
+            try {
+                return !!$scope.genericWidgetModel.widgetStatus.exitStatus;
+            } catch (e) {
+            }
+            return false;
+        };
+
+        $scope.isWidgetPlaying = function () {
+            try {
+                return $scope.genericWidgetModel.widgetStatus.nodeModel.state === 'RUNNING';
+            } catch (e) {
+
+            }
+            return false;
+        };
+
+
         function postMessage(data) {
             var element = $scope.genericWidgetModel.element;
+            $log.debug('GSGenericCtrl will post message', data, typeof(element));
+
 
             if (typeof(element) === 'function') {
                 element = element();
@@ -77,9 +104,12 @@ angular.module('cloudifyWidgetAngularController')
                 $log.error('element not defined on GsMessagesHubService postMessage. Do not know who to post data to');
             }
 
+            $log.debug('element is', element);
+
             try {
                 element.contentWindow.postMessage(data, '*');
             } catch (e) {
+                $log.error('unable to post message', e);
             }
         }
 
