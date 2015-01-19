@@ -48,16 +48,20 @@ angular.module('cloudifyWidgetAngularController')
         }, postRecipeProperties, true);
 
         $scope.playWidget = function () {
-            var data = {
-                executionDetails: {
-                    EC2: {
-                        params: {
-                            apiKey: $scope.genericWidgetModel.advancedData.params.key,
-                            secretKey: $scope.genericWidgetModel.advancedData.params.secretKey
+            var data = {};
+
+            if ($scope.genericWidgetModel.advancedData.params) {
+                data = {
+                    executionDetails: {
+                        EC2: {
+                            params: {
+                                apiKey: $scope.genericWidgetModel.advancedData.params.key,
+                                secretKey: $scope.genericWidgetModel.advancedData.params.secretKey
+                            }
                         }
                     }
-                }
-            };
+                };
+            }
 
             postMessage({name: 'widget_play', widget: data});
         };
