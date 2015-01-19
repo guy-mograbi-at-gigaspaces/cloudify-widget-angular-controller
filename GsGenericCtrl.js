@@ -70,8 +70,28 @@ angular.module('cloudifyWidgetAngularController')
             postMessage({name: 'widget_stop'});
         };
 
+        $scope.isWidgetInstallationFinished = function () {
+            try {
+                return !!$scope.genericWidgetModel.widgetStatus.exitStatus;
+            } catch (e) {
+            }
+            return false;
+        };
+
+        $scope.isWidgetPlaying = function () {
+            try {
+                return $scope.genericWidgetModel.widgetStatus.nodeModel.state === 'RUNNING';
+            } catch (e) {
+
+            }
+            return false;
+        };
+
+
         function postMessage(data) {
             var element = $scope.genericWidgetModel.element;
+            $log.debug('GSGenericCtrl will post message', data, typeof(element));
+
 
             if (typeof(element) === 'function') {
                 element = element();
@@ -81,9 +101,12 @@ angular.module('cloudifyWidgetAngularController')
                 $log.error('element not defined on GsMessagesHubService postMessage. Do not know who to post data to');
             }
 
+            $log.debug('element is', element);
+
             try {
                 element.contentWindow.postMessage(data, '*');
             } catch (e) {
+                $log.error('unable to post message', e);
             }
         }
 
