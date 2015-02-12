@@ -53,10 +53,17 @@ angular.module('cloudifyWidgetAngularController')
             if ($scope.genericWidgetModel.advancedData.params) {
                 data = {
                     executionDetails: {
+                        providerName: $scope.genericWidgetModel.advancedData.type,
                         EC2: {
                             params: {
                                 apiKey: $scope.genericWidgetModel.advancedData.params.key,
                                 secretKey: $scope.genericWidgetModel.advancedData.params.secretKey
+                            }
+                        },
+                        softlayer: {
+                            params: {
+                                username: $scope.genericWidgetModel.advancedData.params.username,
+                                apiKey: $scope.genericWidgetModel.advancedData.params.apiKey
                             }
                         }
                     }
