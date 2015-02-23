@@ -52,6 +52,7 @@ angular.module('cloudifyWidgetAngularController')
 
             if ($scope.genericWidgetModel.advancedData.params) {
                 data.executionDetails = {
+                    leadDetails: $scope.genericWidgetModel.leadDetails,
                     providerName: $scope.genericWidgetModel.advancedData.type,
                     EC2: {
                         params: {
